@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { UsersService } from './users.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,21 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'demo';
+  object :any= [];
+  name = '';
+  constructor(private userService : UsersService){}
+
+  ngOnInit(){
+    this.userService.getUsers().subscribe((data)=>{
+      console.log(data);
+      this.object = data;
+    })
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    console.log((filterValue));
+    
+    this.object.filter = filterValue.trim().toLowerCase();
+  }
 }
